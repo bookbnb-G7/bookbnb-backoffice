@@ -201,7 +201,7 @@ const Room = ({ match }) => {
       const roomData = await getRoom(roomId);
       const ratingsData = await getRoomRatings(roomId);
       const reviewsData = await getRoomReviews(roomId);
-      const bookings = await getBookings(roomId);
+      const bookings = await getBookings({ roomId: roomId });
 
       setRoom(roomData);
       setBookings(bookings);

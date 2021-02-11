@@ -1,25 +1,36 @@
-import firebase from 'firebase';
-import 'firebase/auth';
+import axios from 'axios';
 
-// TODO: Esto mepa iria mejor en variables de entorno porque es info privada
-// Your web app's Firebase configuration
+const AUTH_SERVER_URL = 'https://bookbnb-authserver.herokuapp.com';
+const API_KEY = 'apikeydetestingenprod';
 
-var firebaseConfig = {
-  apiKey: 'AIzaSyBCOf10elgsS0KcCiGTvfGvP5yODsXL8oU',
-  authDomain: 'bookbnb-889bf.firebaseapp.com',
-  databaseURL: 'https://bookbnb-889bf.firebaseio.com',
-  projectId: 'bookbnb-889bf',
-  storageBucket: 'bookbnb-889bf.appspot.com',
-  messagingSenderId: '450909270234',
-  appId: '1:450909270234:web:2facee8f464215a35875e3',
+const getUserAuthInfo = async (userId) => {
+  let path = `${AUTH_SERVER_URL}/users/${userId}`;
+
+  const response = await axios.get(path, {
+    headers: { 'api-key': API_KEY },
+  });
+
+  return response.data;
 };
 
-// si no se inicializo la app de firebase
-if (firebase.apps.length === 0) {
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-}
+const blockUser = async (userId) => {
+  let path = `${AUTH_SERVER_URL}/users/${userId}/block`;
 
-const auth = firebase.auth();
+  const response = await axios.post(path, {
+    headers: { 'api-key': API_KEY },
+  });
 
-export default { firebase, auth };
+  return response.data;
+};
+
+const unblockUser = async (userId) => {
+  let path = `${AUTH_SERVER_URL}/users/${userId}/unblock`;
+
+  const response = await axios.post(path, {
+    headers: { 'api-key': API_KEY },
+  });
+
+  return response.data;
+};
+
+export { getUserAuthInfo, blockUser, unblockUser };

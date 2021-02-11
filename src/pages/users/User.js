@@ -4,8 +4,10 @@ import ErrorMessage from '../../containers/Error';
 import { Ratings, Reviews } from '../../constants';
 import React, { useState, useEffect } from 'react';
 import { addDays, humanizeDate } from '../../utils';
+import { BookingsTable } from '../bookings/Bookings';
 import { DarkRedBnb, White } from '../../theme/Colors';
 import { useHistory, useLocation } from 'react-router-dom';
+import { getBookings } from '../../services/BookingsService';
 import { RatingsPieChart, RatingsLineChart } from '../../charts/RatingsChart';
 import { getUser, getRecievedReviews, getReceviedRatings } from '../../services/UserService';
 import { CCard, CCardBody, CCardHeader, CCol, CRow, CDataTable, CPagination } from '@coreui/react';
@@ -191,6 +193,9 @@ const User = ({ match }) => {
   const [hostReviews, setHostReviews] = useState([]);
   const [hostRatings, setHostRatings] = useState([]);
 
+  const [bookingsMade, setBookingsMade] = useState([]);
+  const [bookingsReceived, setBookingsReceived] = useState([]);
+
   const userId = match.params.id;
 
   const fetchUser = async () => {
@@ -203,6 +208,9 @@ const User = ({ match }) => {
       const guestRatingsData = await getReceviedRatings(userId, Ratings.GUEST);
       const guestReviewsData = await getRecievedReviews(userId, Reviews.GUEST);
 
+      const bookingsMade = await getBookings({ bookerId: userId });
+      const bookingsReceived = await getBookings({ roomOwnerId: userId });
+
       setUser(userData);
 
       setHostRatings(hostRatingsData.ratings);
@@ -210,6 +218,9 @@ const User = ({ match }) => {
 
       setGuestRatings(guestRatingsData.ratings);
       setGuestReviews(guestReviewsData.reviews);
+
+      setBookingsMade(bookingsMade);
+      setBookingsReceived(bookingsReceived);
     } catch (err) {
       setError(err.message);
     }
@@ -261,6 +272,15 @@ const User = ({ match }) => {
         </CCol>
         <CCol lg={6}>
           <ReviewsTable reviews={guestReviews} reviewType={Reviews.GUEST} />
+        </CCol>
+      </CRow>
+
+      <CRow>
+        <CCol lg={6}>
+          <BookingsTable bookings={bookingsMade} maxRows={5} />
+        </CCol>
+        <CCol lg={6}>
+          <BookingsTable bookings={bookingsReceived} maxRows={5} />
         </CCol>
       </CRow>
     </div>
