@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import ErrorMessage from '../../containers/Error';
 import React, { useState, useEffect } from 'react';
@@ -16,6 +17,10 @@ const Rooms = ({ showBlockButton = true }) => {
   const [page, setPage] = useState(currentPage);
   const [error, setError] = useState(null);
 
+  // fucking hardcoded but is still 1 am and I dont know
+  // how to make ir work. I literally hate UI's!
+  const [refresh, setRefresh] = useState(1);
+
   const pageChange = (newPage) => {
     currentPage !== newPage && history.push(`/rooms?page=${newPage}`);
   };
@@ -24,7 +29,7 @@ const Rooms = ({ showBlockButton = true }) => {
     history.push(`/rooms/${room.id}`);
   };
 
-  const fetchBookings = async () => {
+  const fetchRooms = async () => {
     try {
       const roomsData = await getRooms();
       setRooms(roomsData.rooms);
@@ -37,7 +42,7 @@ const Rooms = ({ showBlockButton = true }) => {
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 
-  useEffect(() => fetchBookings(), []);
+  useEffect(() => fetchRooms(), [refresh]);
 
   const cardHeaderStyle = {
     background: DarkRedBnb,
@@ -71,17 +76,6 @@ const Rooms = ({ showBlockButton = true }) => {
     },
   ];
 
-  const blockedBadget = (booking) => {
-    const color = booking.blocked ? 'warning' : 'success';
-    const text = booking.blocked ? 'blocked' : 'active';
-
-    return (
-      <td>
-        <CBadge color={color}>{text}</CBadge>
-      </td>
-    );
-  };
-
   const toggleDetails = (index) => {
     const position = details.indexOf(index);
     let newDetails = details.slice();
@@ -103,19 +97,50 @@ const Rooms = ({ showBlockButton = true }) => {
     );
   };
 
-  const detailsCard = (room, index) => {
-    const blockButtonText = room.blocked ? 'Unblock' : 'Block';
-    const functionToApply = room.blocked ? unblockRoom : blockRoom;
+  const blockedBadget = (room) => {
+    const color = room.blocked ? 'danger' : 'success';
+    const text = room.blocked ? 'blocked' : 'active';
 
+    return (
+      <td>
+        <CBadge color={color}>{text}</CBadge>
+      </td>
+    );
+  };
+
+  const BlockButton = ({ room }) => {
+    const [color, setColor] = useState('secondary');
+    const [text, setText] = useState('loading');
+
+    const blockOrUnblock = () => {
+      if (room.blocked) {
+        unblockRoom(room.id).then(setRefresh(refresh + 1));
+      } else {
+        blockRoom(room.id).then(setRefresh(refresh + 1));
+      }
+      setRefresh(refresh + 1);
+    };
+
+    useEffect(() => {
+      setColor(room.blocked ? 'danger' : 'success');
+      setText(room.blocked ? 'unblock' : 'block');
+    }, []);
+
+    return (
+      <CButton size="sm" color={color} className="ml-1" onClick={() => blockOrUnblock()}>
+        {text}
+      </CButton>
+    );
+  };
+
+  const detailsCard = (room, index) => {
     return (
       <CCollapse show={details.includes(index)}>
         <CCardBody>
           <CButton size="sm" color="info" onClick={() => redirectToRoom(room)}>
             Room Info
           </CButton>
-          <CButton size="sm" color="danger" className="ml-1" onClick={() => functionToApply(room.id)}>
-            {blockButtonText}
-          </CButton>
+          <BlockButton room={room} />
         </CCardBody>
       </CCollapse>
     );
@@ -136,6 +161,8 @@ const Rooms = ({ showBlockButton = true }) => {
               sorter
               striped
               tableFilter
+              onFilteredItemsChange={() => setRefresh(refresh + 1)}
+              onSorterValueChange={() => setRefresh(refresh + 1)}
               itemsPerPage={25}
               activePage={page}
               scopedSlots={{

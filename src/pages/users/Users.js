@@ -7,69 +7,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { getUserAuthInfo, blockUser, unblockUser } from '../../services/AuthService';
 import { CCard, CCardBody, CCardHeader, CCol, CDataTable, CRow, CPagination, CButton, CBadge, CCollapse } from '@coreui/react';
 
-const BlockedBadget = ({ user }) => {
-  const [color, setColor] = useState('warning');
-  const [text, setText] = useState('loading');
-
-  const fetchUsersAuthInfo = async () => {
-    try {
-      const userAuthInfo = await getUserAuthInfo(user.id);
-      const _color = userAuthInfo.blocked ? 'danger' : 'success';
-      const _text = userAuthInfo.blocked ? 'blocked' : 'active';
-
-      setColor(_color);
-      setText(_text);
-    } catch (err) {
-      setColor('black');
-      setText('error');
-    }
-  };
-
-  useEffect(() => fetchUsersAuthInfo(), []);
-
-  return (
-    <td>
-      <CBadge color={color}>{text}</CBadge>
-    </td>
-  );
-};
-
-const BlockButton = ({ user }) => {
-  const [color, setColor] = useState('secondary');
-  const [text, setText] = useState('loading');
-
-  const blockOrUnblock = () => {
-    if (text == 'block') blockUser(user.id);
-    if (text == 'unblock') unblockUser(user.id);
-  };
-
-  const fetchUsersAuthInfo = async () => {
-    try {
-      const userAuthInfo = await getUserAuthInfo(user.id);
-      const _color = userAuthInfo.blocked ? 'success' : 'danger';
-      const _text = userAuthInfo.blocked ? 'unblock' : 'block';
-
-      setColor(_color);
-      setText(_text);
-    } catch (err) {
-      setColor('secondary');
-      setText('error');
-    }
-  };
-
-  useEffect(() => fetchUsersAuthInfo(), []);
-
-  return text == 'loading' || text == 'error' ? (
-    <CButton color={color} className="ml-1" disabled>
-      {text}
-    </CButton>
-  ) : (
-    <CButton size="sm" color={color} className="ml-1" onClick={() => blockOrUnblock()}>
-      {text}
-    </CButton>
-  );
-};
-
 const Users = () => {
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
@@ -79,6 +16,74 @@ const Users = () => {
   const [page, setPage] = useState(currentPage);
   const [users, setUsers] = useState(null);
   const [error, setError] = useState(null);
+
+  // fucking hardcoded but is still 1 am and I dont know
+  // how to make ir work. I literally hate UI's!
+  const [refresh, setRefresh] = useState(1);
+
+  const BlockedBadget = ({ user }) => {
+    const [color, setColor] = useState('warning');
+    const [text, setText] = useState('loading');
+
+    const fetchUsersAuthInfo = async () => {
+      try {
+        const userAuthInfo = await getUserAuthInfo(user.id);
+        const _color = userAuthInfo.blocked ? 'danger' : 'success';
+        const _text = userAuthInfo.blocked ? 'blocked' : 'active';
+
+        setColor(_color);
+        setText(_text);
+      } catch (err) {
+        setColor('black');
+        setText('error');
+      }
+    };
+
+    useEffect(() => fetchUsersAuthInfo(), []);
+
+    return (
+      <td>
+        <CBadge color={color}>{text}</CBadge>
+      </td>
+    );
+  };
+
+  const BlockButton = ({ user }) => {
+    const [color, setColor] = useState('secondary');
+    const [text, setText] = useState('loading');
+
+    const blockOrUnblock = () => {
+      if (text == 'block') blockUser(user.id);
+      if (text == 'unblock') unblockUser(user.id);
+      setRefresh(refresh + 1);
+    };
+
+    const fetchUsersAuthInfo = async () => {
+      try {
+        const userAuthInfo = await getUserAuthInfo(user.id);
+        const _color = userAuthInfo.blocked ? 'success' : 'danger';
+        const _text = userAuthInfo.blocked ? 'unblock' : 'block';
+
+        setColor(_color);
+        setText(_text);
+      } catch (err) {
+        setColor('secondary');
+        setText('error');
+      }
+    };
+
+    useEffect(() => fetchUsersAuthInfo(), []);
+
+    return text == 'loading' || text == 'error' ? (
+      <CButton size="sm" color={color} className="ml-1" disabled>
+        {text}
+      </CButton>
+    ) : (
+      <CButton size="sm" color={color} className="ml-1" onClick={() => blockOrUnblock()}>
+        {text}
+      </CButton>
+    );
+  };
 
   const pageChange = (newPage) => {
     currentPage !== newPage && history.push(`/users?page=${newPage}`);
@@ -101,7 +106,7 @@ const Users = () => {
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 
-  useEffect(() => fetchUsers(), []);
+  useEffect(() => fetchUsers(), [refresh]);
 
   const cardHeaderStyle = {
     background: DarkRedBnb,
@@ -143,7 +148,7 @@ const Users = () => {
     setDetails(newDetails);
   };
 
-  const showDetails = (item, index) => {
+  const showDetails = (_, index) => {
     return (
       <td className="py-2">
         <CButton
@@ -188,6 +193,8 @@ const Users = () => {
               outlined
               sorter
               striped
+              onFilteredItemsChange={() => setRefresh(refresh + 1)}
+              onSorterValueChange={() => setRefresh(refresh + 1)}
               tableFilter
               clickableRows
               itemsPerPage={25}

@@ -16,9 +16,7 @@ const getUserAuthInfo = async (userId) => {
 const blockUser = async (userId) => {
   let path = `${AUTH_SERVER_URL}/users/${userId}/block`;
 
-  const response = await axios.post(path, {
-    headers: { 'api-key': API_KEY },
-  });
+  const response = await axios.post(path, {}, { headers: { 'api-key': API_KEY } });
 
   return response.data;
 };
@@ -26,9 +24,7 @@ const blockUser = async (userId) => {
 const unblockUser = async (userId) => {
   let path = `${AUTH_SERVER_URL}/users/${userId}/unblock`;
 
-  const response = await axios.post(path, {
-    headers: { 'api-key': API_KEY },
-  });
+  const response = await axios.post(path, {}, { headers: { 'api-key': API_KEY } });
 
   return response.data;
 };
