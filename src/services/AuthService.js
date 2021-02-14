@@ -29,4 +29,12 @@ const unblockUser = async (userId) => {
   return response.data;
 };
 
-export { getUserAuthInfo, blockUser, unblockUser };
+const status = async () => {
+  let path = `${AUTH_SERVER_URL}/ping`;
+
+  const response = await axios.get(path);
+
+  return response.status;
+};
+
+export { getUserAuthInfo, blockUser, unblockUser, status };

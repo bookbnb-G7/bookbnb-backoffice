@@ -14,4 +14,9 @@ const BookingStatus = {
   REJECTED: 3,
 };
 
-export { Ratings, Reviews, BookingStatus };
+const ServerStatus = {
+  ONLINE: 1,
+  OFFLINE: 2,
+};
+
+export { Ratings, Reviews, BookingStatus, ServerStatus };

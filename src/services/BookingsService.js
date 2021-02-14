@@ -29,4 +29,12 @@ const getBooking = async (bookingId) => {
   return response.data;
 };
 
-export { getBookings, getBooking };
+const status = async () => {
+  let path = `${PAYMENT_SERVER_URL}/ping`;
+
+  const response = await axios.get(path);
+
+  return response.status;
+};
+
+export { getBookings, getBooking, status };

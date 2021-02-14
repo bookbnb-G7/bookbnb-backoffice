@@ -12,6 +12,8 @@ const Booking = React.lazy(() => import('./pages/bookings/Booking'));
 const Rooms = React.lazy(() => import('./pages/rooms/Rooms'));
 const Room = React.lazy(() => import('./pages/rooms/Room'));
 
+const Servers = React.lazy(() => import('./pages/servers/Servers'));
+
 const Toaster = React.lazy(() => import('./views/notifications/Toaster'));
 const Tables = React.lazy(() => import('./views/base/Tables'));
 
@@ -62,6 +64,8 @@ const routes = [
 
   { path: '/rooms', exact: true, name: 'Rooms', component: Rooms },
   { path: '/rooms/:id', exact: true, name: 'Rooms Details', component: Room },
+
+  { path: '/servers', exact: true, name: 'Servers', component: Servers },
 
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },
