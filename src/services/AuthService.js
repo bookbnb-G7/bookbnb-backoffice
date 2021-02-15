@@ -37,4 +37,14 @@ const status = async () => {
   return response.status;
 };
 
-export { getUserAuthInfo, blockUser, unblockUser, status };
+const isAdmin = async (token) => {
+  let path = `${AUTH_SERVER_URL}/admins/sign-in`;
+
+  const response = await axios.get(path, {
+    headers: { 'x-access-token': token },
+  });
+
+  return response.status == 200;
+};
+
+export { getUserAuthInfo, blockUser, unblockUser, status, isAdmin };

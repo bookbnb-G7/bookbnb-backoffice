@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 
 import { status as authServerStatus } from '../../services/AuthService';
@@ -10,8 +9,7 @@ import { status as appServerStatus } from '../../services/AppServerService';
 import { ServerStatus } from '../../constants';
 
 import { CIcon } from '@coreui/icons-react';
-import { CBadge, CCard, CCardBody, CCardHeader, CCol, CDataTable, CRow, CSpinner } from '@coreui/react';
-import { DarkGreen, LightGreen } from '../../theme/Colors';
+import { CCol, CRow, CSpinner } from '@coreui/react';
 
 const Servers = () => {
   const [statusBackoffice, setStatusBackOffice] = useState(null);
@@ -22,7 +20,6 @@ const Servers = () => {
   const [statusPayment, setStatusPayment] = useState(null);
 
   const serverStatus = (status) => {
-    console.log(status);
     if (status == 200) {
       return ServerStatus.ONLINE;
     } else {
