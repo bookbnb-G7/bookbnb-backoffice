@@ -7,6 +7,7 @@ import { getUsers } from '../../services/UserService';
 import { getBookings } from '../../services/BookingsService';
 import { CButton, CButtonGroup, CCard, CCardBody, CCardFooter, CCol, CProgress, CRow, CCallout } from '@coreui/react';
 import MainChartExample from '../../views/charts/MainChartExample.js';
+import Iframe from 'react-iframe';
 
 const WidgetsBrand = lazy(() => import('../../views/widgets/WidgetsBrand.js'));
 
@@ -17,24 +18,19 @@ const RandomCard = () => {
         <CRow>
           <CCol sm="5">
             <h4 id="traffic" className="card-title mb-0">
-              Traffic
+              Usuarios nuevos en la ultima semana
             </h4>
-            <div className="small text-muted">November 2017</div>
-          </CCol>
-          <CCol sm="7" className="d-none d-md-block">
-            <CButton color="primary" className="float-right">
-              <CIcon name="cil-cloud-download" />
-            </CButton>
-            <CButtonGroup className="float-right mr-3">
-              {['Day', 'Month', 'Year'].map((value) => (
-                <CButton color="outline-secondary" key={value} className="mx-0" active={value === 'Month'}>
-                  {value}
-                </CButton>
-              ))}
-            </CButtonGroup>
           </CCol>
         </CRow>
-        <MainChartExample style={{ height: '300px', marginTop: '70px' }} />
+        <Iframe
+          url="https://chart-embed.service.newrelic.com/herald/93805848-933e-4ae8-9dde-863b377e2a28?height=400px&timepicker=true"
+          width="100%"
+          height="440px"
+          display="initial"
+          position="relative"
+          frameBorder={0}
+          scrolling="no"
+        />
       </CCardBody>
       <CCardFooter>
         <CRow className="text-center">
