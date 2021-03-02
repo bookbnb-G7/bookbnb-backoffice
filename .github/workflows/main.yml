@@ -3,7 +3,7 @@ name: Continuous Integration and Delivery
 on:
   push:
     branches:
-      - master]
+      - master
 
 jobs:
   build:
