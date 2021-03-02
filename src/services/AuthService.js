@@ -1,7 +1,10 @@
 import axios from 'axios';
+import { ServerBlockedStatus } from '../constants';
 
-const AUTH_SERVER_URL = 'https://bookbnb-authserver.herokuapp.com';
-const API_KEY = 'apikeydetestingenprod';
+const API_HEROKU_SECRET = process.env.API_HEROKU_SECRET;
+const DISABLED_API_KEY = process.env.DISABLED_API_KEY;
+const AUTH_SERVER_URL = process.env.AUTH_SERVER_URL;
+const API_KEY = process.env.API_KEY;
 
 const getUserAuthInfo = async (userId) => {
   let path = `${AUTH_SERVER_URL}/users/${userId}`;
@@ -47,4 +50,60 @@ const isAdmin = async (token) => {
   return response.status == 200;
 };
 
-export { getUserAuthInfo, blockUser, unblockUser, status, isAdmin };
+const blockedStatus = async (serverName) => {
+  let path = `https://api.heroku.com/apps/${serverName}/config-vars`;
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/vnd.heroku+json; version=3',
+      Authorization: API_HEROKU_SECRET,
+    },
+  };
+
+  const response = await axios.get(path, config);
+
+  if (response.data.API_KEY === DISABLED_API_KEY) {
+    return ServerBlockedStatus.BLOCKED;
+  } else {
+    return ServerBlockedStatus.UNBLOCKED;
+  }
+};
+
+const blockServer = async (serverName) => {
+  let path = `https://api.heroku.com/apps/${serverName}/config-vars`;
+
+  const body = { API_KEY: process.env.DISABLED_API_KEY };
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/vnd.heroku+json; version=3',
+      Authorization: API_HEROKU_SECRET,
+    },
+  };
+
+  const response = await axios.patch(path, body, config);
+
+  return response.status == 200;
+};
+
+const unblockServer = async (serverName) => {
+  let path = `https://api.heroku.com/apps/${serverName}/config-vars`;
+
+  const body = { API_KEY: API_KEY };
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/vnd.heroku+json; version=3',
+      Authorization: API_HEROKU_SECRET,
+    },
+  };
+
+  const response = await axios.patch(path, body, config);
+
+  return response.status == 200;
+};
+
+export { getUserAuthInfo, blockUser, unblockUser, status, isAdmin, blockServer, unblockServer, blockedStatus };

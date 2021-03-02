@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PAYMENT_SERVER_URL = 'https://bookbnb-payment.herokuapp.com';
+const PAYMENT_SERVER_URL = process.env.PAYMENT_SERVER_URL;
 const API_KEY = 'apikeydetestingenprod';
 
 const getBookings = async (queryParams) => {
