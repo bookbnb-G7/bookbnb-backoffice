@@ -12,7 +12,7 @@ const loading = (
 // Containers
 const TheLayout = React.lazy(() => import('./containers/TheLayout'));
 
-// Pages 
+// Pages
 const Login = React.lazy(() => import('./pages/Login'));
 const Register = React.lazy(() => import('./pages/Register'));
 const Page404 = React.lazy(() => import('./pages/Page404'));
