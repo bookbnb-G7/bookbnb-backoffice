@@ -19,4 +19,9 @@ const ServerStatus = {
   OFFLINE: 2,
 };
 
-export { Ratings, Reviews, BookingStatus, ServerStatus };
+const ServerBlockedStatus = {
+  BLOCKED: 1,
+  UNBLOCKED: 2,
+};
+
+export { Ratings, Reviews, BookingStatus, ServerStatus, ServerBlockedStatus };

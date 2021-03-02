@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Ratings, Reviews } from '../constants';
 
-const USER_SERVER_URL = 'https://bookbnb-userserver.herokuapp.com';
-const API_KEY = 'apikeydetestingenprod';
+const USER_SERVER_URL = process.env.USER_SERVER_URL;
+const API_KEY = process.env.API_KEY;
 
 const getUsers = async () => {
   let path = `${USER_SERVER_URL}/users`;

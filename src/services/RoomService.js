@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const POST_SERVER_URL = 'https://bookbnb-postserver.herokuapp.com';
-const API_KEY = 'apikeydetestingenprod';
+const POST_SERVER_URL = process.env.POST_SERVER_URL;
+const API_KEY = process.env.API_KEY;
 
 const getRooms = async (allowBlocks = true) => {
   let path = `${POST_SERVER_URL}/rooms`;

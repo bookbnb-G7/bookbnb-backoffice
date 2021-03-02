@@ -33,11 +33,11 @@
     "react-nice-dates": "^3.0.7",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "redux": "4.0.5"
+    "redux": "4.0.5",
+    "react-scripts": "^4.0.1"
   },
   "devDependencies": {
     "auto-changelog": "~2.2.1",
-    "react-scripts": "^4.0.1",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.1",
