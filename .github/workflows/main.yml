@@ -1,29 +1,21 @@
-name: heroku-deploy
+name: Continuous Integration and Delivery
 
+on: [push, pull_request]
 
-on:
-  push:
-    branches: [ master ]
-
-
-jobs:
- 
-  build:
-   
+deploy:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
-    
+    env:
+      HEROKU_APP_NAME: bookbnb-backofficeweb
+
     steps:
-    
-    - uses: actions/checkout@v2
-    - uses: akhileshns/heroku-deploy@v3.4.6
-      with:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - uses: akhileshns/heroku-deploy@v3.0.0
+        with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "bookbnb-backofficeweb"
-          heroku_email: "ftorraca@fi.uba.com"
-
-
-   
-    - name: Run a one-line script
-      run: echo successfully run
-      
+          heroku_email: "ftorraca@fi.uba.ar"
