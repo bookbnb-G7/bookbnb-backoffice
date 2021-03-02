@@ -1,14 +1,13 @@
 name: Continuous Integration and Delivery
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master]
 
-deploy:
-    if: github.ref == 'refs/heads/master'
+jobs:
+  build:
     runs-on: ubuntu-latest
-
-    env:
-      HEROKU_APP_NAME: bookbnb-backofficeweb
-
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
