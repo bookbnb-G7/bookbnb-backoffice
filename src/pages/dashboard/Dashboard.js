@@ -78,9 +78,9 @@ const Dashboard = () => {
       const usersData = await getUsers();
       const bookingsData = await getBookings();
 
-      setRooms(roomsData.rooms);
-      setUsers(usersData.users);
-      setBookings(bookingsData);
+      setRooms(roomsData.rooms || []);
+      setUsers(usersData.users || []);
+      setBookings(bookingsData || []);
     } catch (err) {
       setError(err.message);
     }
