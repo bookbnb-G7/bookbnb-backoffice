@@ -9,17 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      API_KEY: ${{secrets.API_KEY}}
-      APP_SERVER_URL: ${{secrets.APP_SERVER_URL}}
-      AUTH_SERVER_URL: ${{secrets.AUTH_SERVER_URL}}
-      DISABLED_API_KEY: ${{secrets.DISABLED_API_KEY}}
-      GENERATE_SOURCEMAP: ${{secrets.GENERATE_SOURCEMAP}}
-      NODE_OPTIONS: ${{secrets.NODE_OPTIONS}}
-      NPM_CONFIG_PRODUCTION: ${{secrets.NPM_CONFIG_PRODUCTION}}
-      PAYMENT_SERVER_URL: ${{secrets.PAYMENT_SERVER_URL}}
-      POST_SERVER_URL: ${{secrets.POST_SERVER_URL}}
-      PUBLIC_URL: ${{secrets.PUBLIC_URL}}
-      USER_SERVER_URL: ${{secrets.USER_SERVER_URL}}
+      REACT_APP_API_KEY: ${{secrets.REACT_APP_API_KEY}}
+      REACT_APP_APP_SERVER_URL: ${{secrets.REACT_APP_APP_SERVER_URL}}
+      REACT_APP_AUTH_SERVER_URL: ${{secrets.REACT_APP_AUTH_SERVER_URL}}
+      REACT_APP_DISABLED_API_KEY: ${{secrets.REACT_APP_DISABLED_API_KEY}}
+      REACT_APP_GENERATE_SOURCEMAP: ${{secrets.REACT_APP_GENERATE_SOURCEMAP}}
+      REACT_APP_NODE_OPTIONS: ${{secrets.REACT_APP_NODE_OPTIONS}}
+      REACT_APP_NPM_CONFIG_PRODUCTION: ${{secrets.REACT_APP_NPM_CONFIG_PRODUCTION}}
+      REACT_APP_PAYMENT_SERVER_URL: ${{secrets.REACT_APP_PAYMENT_SERVER_URL}}
+      REACT_APP_POST_SERVER_URL: ${{secrets.REACT_APP_POST_SERVER_URL}}
+      REACT_APP_PUBLIC_URL: ${{secrets.REACT_APP_PUBLIC_URL}}
+      REACT_APP_USER_SERVER_URL: ${{secrets.REACT_APP_USER_SERVER_URL}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
