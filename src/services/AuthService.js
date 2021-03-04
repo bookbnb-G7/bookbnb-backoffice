@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ServerBlockedStatus } from '../constants';
 
-const API_HEROKU_SECRET = `"Bearer ${process.env.REACT_APP_API_HEROKU_SECRET}`;
+const API_HEROKU_SECRET = `"Bearer ${process.env.REACT_APP_API_HEROKU_SECRET}"`;
 const DISABLED_API_KEY = process.env.REACT_APP_DISABLED_API_KEY;
 const AUTH_SERVER_URL = process.env.REACT_APP_AUTH_SERVER_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
