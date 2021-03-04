@@ -61,6 +61,8 @@ const blockedStatus = async (serverName) => {
     },
   };
 
+  console.log(API_HEROKU_SECRET);
+
   const response = await axios.get(path, config);
 
   if (response.data.API_KEY === DISABLED_API_KEY) {
