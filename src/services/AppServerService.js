@@ -7,7 +7,7 @@ const status = async () => {
 
   try {
     const response = await axios.get(path);
-    return response.status;  
+    return response.status;
   } catch {
     return 500;
   }

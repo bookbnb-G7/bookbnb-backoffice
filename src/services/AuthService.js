@@ -64,7 +64,6 @@ const blockedStatus = async (serverName) => {
     },
   };
 
-
   const response = await axios.get(path, config);
 
   if (response.data.API_KEY === DISABLED_API_KEY) {
