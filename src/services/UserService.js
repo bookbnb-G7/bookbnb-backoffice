@@ -48,10 +48,12 @@ const getRecievedReviews = async (userId, ratingType) => {
 
 const status = async () => {
   let path = `${USER_SERVER_URL}/ping`;
-
-  const response = await axios.get(path);
-
-  return response.status;
+  try {
+    const response = await axios.get(path);
+    return response.status;
+  } catch {
+    return 500;
+  }
 };
 
 export { getUsers, getUser, getReceviedRatings, getRecievedReviews, status };

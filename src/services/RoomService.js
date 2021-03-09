@@ -70,9 +70,12 @@ const unblockRoom = async (roomId) => {
 const status = async () => {
   let path = `${POST_SERVER_URL}/ping`;
 
-  const response = await axios.get(path);
-
-  return response.status;
+  try {
+    const response = await axios.get(path);
+    return response.status;
+  } catch {
+    return 500;
+  }
 };
 
 export { getRooms, getRoom, getRoomReviews, getRoomRatings, blockRoom, unblockRoom, status };

@@ -35,9 +35,12 @@ const unblockUser = async (userId) => {
 const status = async () => {
   let path = `${AUTH_SERVER_URL}/ping`;
 
-  const response = await axios.get(path);
-
-  return response.status;
+  try {
+    const response = await axios.get(path);
+    return response.status;
+  } catch {
+    return 500;
+  }
 };
 
 const isAdmin = async (token) => {
@@ -61,7 +64,6 @@ const blockedStatus = async (serverName) => {
     },
   };
 
-  console.log(API_HEROKU_SECRET);
 
   const response = await axios.get(path, config);
 

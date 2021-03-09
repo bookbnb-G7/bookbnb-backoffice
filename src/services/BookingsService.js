@@ -32,9 +32,12 @@ const getBooking = async (bookingId) => {
 const status = async () => {
   let path = `${PAYMENT_SERVER_URL}/ping`;
 
-  const response = await axios.get(path);
-
-  return response.status;
+  try {
+    const response = await axios.get(path);
+    return response.status;
+  } catch {
+    return 500;
+  }
 };
 
 export { getBookings, getBooking, status };
